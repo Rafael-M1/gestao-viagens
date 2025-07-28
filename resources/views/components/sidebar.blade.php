@@ -9,5 +9,8 @@
         <li class="nav-item mb-2">
             <a href="{{ route('brands.index') }}" class="nav-link text-light">Marcas</a>
         </li>
+        <li class="nav-item mb-2">
+            <a href="{{ route('vehicle-models.index') }}" class="nav-link text-light">Modelos</a>
+        </li>
     </ul>
 </nav>
