@@ -10,22 +10,11 @@
 </head>
 <body class="bg-dark text-light">
     <div class="d-flex min-vh-100">
-        <nav class="bg-black p-3 border-end border-secondary" style="width: 240px;">
-            <h4 class="text-light">
-                <a href="{{ route('vehicles.index') }}" class="text-decoration-none text-light">Gestão de Viagens</a>
-            </h4>
-            <ul class="nav flex-column mt-4">
-                <li class="nav-item mb-2">
-                    <a href="{{ route('vehicles.index') }}" class="nav-link text-light">Veículos</a>
-                </li>
-            </ul>
-        </nav>
-
+        <x-sidebar />
         <main class="flex-grow-1 p-4">
             <h2 class="mb-4">{{ $title ?? 'Laravel' }}</h2>
             {{ $slot }}
         </main>
     </div>
-
 </body>
 </html>
