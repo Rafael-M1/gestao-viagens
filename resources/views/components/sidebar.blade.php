@@ -6,5 +6,8 @@
         <li class="nav-item mb-2">
             <a href="{{ route('vehicles.index') }}" class="nav-link text-light">Veículos</a>
         </li>
+        <li class="nav-item mb-2">
+            <a href="{{ route('brands.index') }}" class="nav-link text-light">Marcas</a>
+        </li>
     </ul>
 </nav>
