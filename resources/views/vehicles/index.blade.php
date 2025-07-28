@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Veículos</h2>
         <div>
-            <a href="{{ route('vehicles.create') }}" class="btn btn-primary me-2">➕ Adicionar Veículo</a>
+            <a href="{{ route('vehicles.create') }}" class="btn btn-outline-light">➕ Adicionar Veículo</a>
             <a href="{{ route('vehicles.pdf') }}" class="btn btn-outline-light">⬇️ Exportar PDF</a>
         </div>
     </div>
