@@ -13,15 +13,17 @@
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Ano</th>
+                <th>Placa</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($vehicles as $vehicle)
                 <tr>
-                    <td>{{ $vehicle->brand }}</td>
-                    <td>{{ $vehicle->model }}</td>
-                    <td>{{ $vehicle->year }}</td>
+                    <td>{{ $vehicle->vehicleModel->brand->name ?? '-' }}</td>
+                    <td>{{ $vehicle->vehicleModel->name ?? '-' }}</td>
+                    <td>{{ $vehicle->year ?? '-' }}</td>
+                    <td>{{ $vehicle->license_plate }}</td>
                     <td>
                         <a href="{{ route('vehicles.edit', $vehicle) }}" class="btn btn-sm btn-warning">Editar</a>
 

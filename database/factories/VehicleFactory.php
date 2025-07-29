@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Vehicle;
+use App\Models\VehicleModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +21,9 @@ class VehicleFactory extends Factory
     public function definition(): array
     {
         return [
-            'brand' => $this->faker->company(),
-            'model' => $this->faker->word(),
-            'year' => $this->faker->year(),
+            'vehicle_model_id' => VehicleModel::inRandomOrder()->first()?->id ?? VehicleModel::factory(),
+            'license_plate' => strtoupper(fake()->bothify('???-####')),
+            'year' => fake()->numberBetween(2000, 2025),
         ];
     }
 }

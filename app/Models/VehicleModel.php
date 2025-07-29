@@ -9,7 +9,7 @@ class VehicleModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['brand_id', 'name', 'year'];
+    protected $fillable = ['brand_id', 'name'];
 
     public function brand()
     {

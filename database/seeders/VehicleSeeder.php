@@ -13,12 +13,6 @@ class VehicleSeeder extends Seeder
      */
     public function run(): void
     {
-        Vehicle::insert([
-            ['brand' => 'Toyota', 'model' => 'Corolla', 'year' => 2021],
-            ['brand' => 'Honda', 'model' => 'Civic', 'year' => 2020],
-            ['brand' => 'Ford', 'model' => 'Ranger', 'year' => 2019],
-            ['brand' => 'Volkswagen', 'model' => 'T-Cross', 'year' => 2023],
-            ['brand' => 'Chevrolet', 'model' => 'Onix', 'year' => 2022],
-        ]);
+        Vehicle::factory()->count(10)->create();
     }
 }

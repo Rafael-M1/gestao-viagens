@@ -24,8 +24,7 @@ class VehicleModelController extends Controller
     {
         $request->validate([
             'brand_id' => 'required|exists:brands,id',
-            'name'     => 'required|string',
-            'year'     => 'required|integer',
+            'name'     => 'required|string'
         ]);
 
         VehicleModel::create($request->all());
@@ -42,8 +41,7 @@ class VehicleModelController extends Controller
     {
         $request->validate([
             'brand_id' => 'required|exists:brands,id',
-            'name'     => 'required|string',
-            'year'     => 'required|integer',
+            'name'     => 'required|string'
         ]);
 
         $vehicleModel->update($request->all());
