@@ -20,6 +20,14 @@
                         <a href="/vehicles" class="block text-gray-700 hover:text-blue-600">Veículos</a>
                         <a href="/brands" class="block text-gray-700 hover:text-blue-600">Marcas</a>
                         <a href="/vehicle-models" class="block text-gray-700 hover:text-blue-600">Modelos</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a :href="route('logout')"
+                                class="block text-gray-700 hover:text-blue-600 cursor-pointer"
+                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </a>
+                        </form>
                     </nav>
                 </div>
             </aside>
