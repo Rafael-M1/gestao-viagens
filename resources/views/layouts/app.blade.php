@@ -25,7 +25,7 @@
                             <a :href="route('logout')"
                                 class="block text-gray-700 hover:text-blue-600 cursor-pointer"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Log Out System') }}
                             </a>
                         </form>
                     </nav>

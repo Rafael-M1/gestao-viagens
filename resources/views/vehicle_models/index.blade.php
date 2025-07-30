@@ -1,5 +1,6 @@
 <x-app-layout title="Modelos de Veículos">
     <div class="mb-4">
+        <h2 class="text-2xl font-semibold text-gray-800">Marcas</h2>
         <a href="{{ route('vehicle-models.create') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Adicionar Modelo
         </a>
