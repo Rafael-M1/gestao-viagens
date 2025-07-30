@@ -10,10 +10,11 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
-RUN php artisan key:generate
-RUN php artisan config:cache
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+RUN mkdir -p /var/data && touch /var/data/database.sqlite
+
+CMD php artisan key:generate && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
