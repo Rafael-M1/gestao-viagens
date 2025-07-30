@@ -1,19 +1,32 @@
-<x-layout title="Editar Marca">
-    <h2>Editar Marca</h2>
+<x-app-layout title="Editar Marca">
+    <h2 class="text-2xl font-semibold mb-6">Editar Marca</h2>
 
-    <form method="POST" action="{{ route('brands.update', $brand) }}">
+    <form method="POST" action="{{ route('brands.update', $brand) }}" class="space-y-6 max-w-md">
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Nome da Marca</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $brand->name) }}" required>
+        <div>
+            <label for="name" class="block text-gray-700 font-medium mb-2">Nome da Marca</label>
+            <input
+                type="text"
+                name="name"
+                id="name"
+                class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                value="{{ old('name', $brand->name) }}"
+                required
+            >
             @error('name')
-                <div class="text-danger mt-1">{{ $message }}</div>
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <button class="btn btn-success" type="submit">Atualizar</button>
-        <a href="{{ route('brands.index') }}" class="btn btn-secondary">Cancelar</a>
+        <div class="flex space-x-4">
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                Atualizar
+            </button>
+            <a href="{{ route('brands.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                Cancelar
+            </a>
+        </div>
     </form>
-</x-layout>
+</x-app-layout>

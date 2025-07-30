@@ -11,7 +11,7 @@ class VehicleController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::with('vehicleModel.brand')->get(); // Eager loading
+        $vehicles = Vehicle::with('vehicleModel.brand')->get();
         return view('vehicles.index', compact('vehicles'));
     }
 

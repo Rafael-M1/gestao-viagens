@@ -1,11 +1,12 @@
-<x-layout title="Editar Veículo">
-    <form action="{{ route('vehicles.update', $vehicle) }}" method="POST" class="card card-body bg-black text-light border-light">
+<x-app-layout title="Editar Veículo">
+    <form action="{{ route('vehicles.update', $vehicle) }}" method="POST" class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
-            <label for="vehicle_model_id" class="form-label">Modelo</label>
-            <select name="vehicle_model_id" id="vehicle_model_id" class="form-select" required>
+        <div>
+            <label for="vehicle_model_id" class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+            <select name="vehicle_model_id" id="vehicle_model_id" required
+                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
                 @foreach ($vehicleModels as $model)
                     <option value="{{ $model->id }}"
                         @selected(old('vehicle_model_id', $vehicle->vehicle_model_id) == $model->id)>
@@ -15,20 +16,29 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="license_plate" class="form-label">Placa</label>
-            <input type="text" name="license_plate" id="license_plate" class="form-control"
-                value="{{ old('license_plate', $vehicle->license_plate) }}" required>
+        <div>
+            <label for="license_plate" class="block text-sm font-medium text-gray-700 mb-1">Placa</label>
+            <input type="text" name="license_plate" id="license_plate"
+                value="{{ old('license_plate', $vehicle->license_plate) }}" required
+                class="w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm px-3 py-2">
         </div>
 
-        <div class="mb-3">
-            <label for="year" class="form-label">Ano</label>
-            <input type="number" name="year" id="year" class="form-control"
-                value="{{ old('year', $vehicle->year) }}" required>
+        <div>
+            <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+            <input type="number" name="year" id="year"
+                value="{{ old('year', $vehicle->year) }}" required
+                class="w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm px-3 py-2">
         </div>
-        <div class="d-flex">
-            <button type="submit" class="btn btn-success">Atualizar</button>
-            <a href="{{ route('vehicles.index') }}" class="btn btn-secondary ms-2">Cancelar</a>
+
+        <div class="flex justify-end space-x-2 pt-4">
+            <button type="submit"
+                class="px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded hover:bg-emerald-700 transition flex items-center gap-2">
+                ✅ <span>Atualizar</span>
+            </button>
+            <a href="{{ route('vehicles.index') }}"
+                class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 text-sm font-medium">
+                ❌ Cancelar
+            </a>
         </div>
     </form>
-</x-layout>
+</x-app-layout>
