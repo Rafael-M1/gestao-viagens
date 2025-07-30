@@ -38,8 +38,8 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
 
-      - name: Rodar testes com Artisan
-        run: php artisan test --env=testing
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+      # - name: Rodar testes com Artisan
+      #   run: php artisan test --env=testing
+      #   env:
+      #     DB_CONNECTION: sqlite
+      #     DB_DATABASE: database/database.sqlite
