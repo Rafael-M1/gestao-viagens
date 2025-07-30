@@ -1,0 +1,45 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'test/**'
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_sqlite, dom
+          coverage: none
+
+      - name: Instalar dependências do Composer
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Criar arquivo .env
+        run: cp .env.example .env
+
+      - name: Gerar chave da aplicação
+        run: php artisan key:generate
+
+      - name: Executar migrations com SQLite
+        run: |
+          touch database/database.sqlite
+          php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+
+      - name: Rodar testes com Artisan
+        run: php artisan test --env=testing
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
