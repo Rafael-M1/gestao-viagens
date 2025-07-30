@@ -13,8 +13,8 @@
         </div>
     @endif
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white rounded shadow">
+    <div class="overflow-x-auto bg-white shadow rounded-lg">
+        <table class="w-full divide-y divide-gray-200 text-sm">
             <thead>
                 <tr class="bg-gray-100 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                     <th class="px-6 py-3">Nome</th>
