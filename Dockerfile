@@ -1,5 +1,6 @@
 FROM php:8.2-cli
 
+# Instala dependências necessárias
 RUN apt-get update && apt-get install -y \
     unzip \
     git \
@@ -7,14 +8,17 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     && docker-php-ext-install pdo pdo_sqlite
 
+# Instala o Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Define o diretório de trabalho
 WORKDIR /app
 
+# Copia os arquivos da aplicação
 COPY . .
 
+# Instala dependências do Laravel
 RUN composer install --no-dev --optimize-autoloader
 
+# Garante que o banco de dados SQLite exista
 RUN mkdir -p /var/data && touch /var/data/database.sqlite
-
-CMD php artisan key:generate && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
