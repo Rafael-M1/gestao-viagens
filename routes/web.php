@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(["role:Admin"])->group(function () {
         Route::resource('vehicles', VehicleController::class)->except(['show']);
         Route::get('/vehicles/pdf', [VehicleController::class, 'exportPdf'])->name('vehicles.pdf');
+        Route::get('/vehicles/map', [VehicleController::class, 'showMap'])->name('vehicles.showMap');
         Route::resource('brands', BrandController::class)->except(['show']);
         Route::resource('vehicle-models', VehicleModelController::class)->except(['show']);
     });

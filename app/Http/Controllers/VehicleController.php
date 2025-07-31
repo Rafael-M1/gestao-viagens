@@ -63,4 +63,9 @@ class VehicleController extends Controller
         $pdf = Pdf::loadView('vehicles.pdf', compact('vehicles'));
         return $pdf->download('veiculos.pdf');
     }
+
+    public function showMap()
+    {
+        return view('vehicles.showMap');
+    }
 }
