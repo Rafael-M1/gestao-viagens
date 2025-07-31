@@ -21,10 +21,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     //-- Breeze Routes --
 
-    Route::resource('vehicles', VehicleController::class)->except(['show']);
-    Route::get('/vehicles/pdf', [VehicleController::class, 'exportPdf'])->name('vehicles.pdf');
-    Route::resource('brands', BrandController::class)->except(['show']);
-    Route::resource('vehicle-models', VehicleModelController::class)->except(['show']);
+    //-- Admin Routes --
+    Route::middleware(["role:Admin"])->group(function () {
+        Route::resource('vehicles', VehicleController::class)->except(['show']);
+        Route::get('/vehicles/pdf', [VehicleController::class, 'exportPdf'])->name('vehicles.pdf');
+        Route::resource('brands', BrandController::class)->except(['show']);
+        Route::resource('vehicle-models', VehicleModelController::class)->except(['show']);
+    });
+    //-- Admin Routes --
 });
 
 require __DIR__.'/auth.php';

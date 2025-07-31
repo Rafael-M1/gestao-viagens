@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        $admin->roles()->syncWithoutDetaching([$adminRole->id]);
+        $admin->roles()->syncWithoutDetaching([$adminRole->id, $userRole->id]);
         $user->roles()->syncWithoutDetaching([$userRole->id]);
     }
 }

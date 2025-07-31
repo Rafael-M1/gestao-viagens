@@ -17,9 +17,13 @@
                     <nav class="space-y-4">
                         <a href="/dashboard" class="block text-gray-700 hover:text-blue-600">Dashboard</a>
                         <a href="/profile" class="block text-gray-700 hover:text-blue-600">Perfil</a>
-                        <a href="/vehicles" class="block text-gray-700 hover:text-blue-600">Veículos</a>
-                        <a href="/brands" class="block text-gray-700 hover:text-blue-600">Marcas</a>
-                        <a href="/vehicle-models" class="block text-gray-700 hover:text-blue-600">Modelos</a>
+                        @auth
+                            @if (auth()->user()->hasRole("Admin"))
+                            <a href="/vehicles" class="block text-gray-700 hover:text-blue-600">Veículos</a>
+                            <a href="/brands" class="block text-gray-700 hover:text-blue-600">Marcas</a>
+                            <a href="/vehicle-models" class="block text-gray-700 hover:text-blue-600">Modelos</a>
+                            @endif
+                        @endauth
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <a :href="route('logout')"
