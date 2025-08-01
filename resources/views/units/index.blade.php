@@ -32,6 +32,7 @@
     @push('scripts')
         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
         <script>
+            const csrfToken = @json(csrf_token());
             // Constantes
             function createIcon(color) {
                 return L.icon({
@@ -61,7 +62,20 @@
                 const marker = L.marker([unit.latitude, unit.longitude], { icon: redIcon })
                     .addTo(map)
                     .bindTooltip(unit.name, { permanent: false, direction: "top" })
-                    .bindPopup(`<strong>${unit.name}</strong><br>Latitude: ${unit.latitude}<br>Longitude: ${unit.longitude}`);
+                    .bindPopup(`
+                        <div>
+                            <strong>${unit.name}</strong><br>
+                            Latitude: ${unit.latitude}<br>
+                            Longitude: ${unit.longitude}<br>
+                            <form method="POST" action="/units/${unit.id}" onsubmit="return confirm('Deseja excluir esta unidade?');" class="mt-2">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="text-red-600 hover:underline flex items-center gap-1">
+                                    🗑️ <span>Excluir</span>
+                                </button>
+                            </form>
+                        </div>
+                    `);
 
                 const circle = L.circle([unit.latitude, unit.longitude], {
                     color: 'red',

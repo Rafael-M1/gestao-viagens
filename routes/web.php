@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/units/map', [UnitController::class, 'index'])->name('units.index');
         Route::post('/units', [UnitController::class, 'store'])->name('units.store');
+        Route::delete('/units/{unit}', [UnitController::class, 'destroy'])->name('units.destroy');
     });
     //-- Admin Routes --
 });

@@ -29,4 +29,10 @@ class UnitController extends Controller
 
         return redirect()->route('units.index');
     }
+
+    public function destroy(Unit $unit)
+    {
+        $unit->delete();
+        return redirect()->route('units.index')->with('success', 'Unidade excluída com sucesso.');
+    }
 }
