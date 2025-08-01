@@ -49,21 +49,28 @@
             const lat = -15.56762;
             const long = -56.0728;
             const coordinates = [lat, long];
-            const map = L.map('map').setView(coordinates, 17);
+            const map = L.map('map');
             const units = @json($units);
+            const markers = [];
             // Constantes
 
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+                .addTo(map);
 
             units.forEach(unit => {
                 const marker = L.marker([unit.latitude, unit.longitude], { icon: redIcon })
                     .addTo(map)
-                    .bindTooltip(unit.name, { permanent: false, direction: "top" });
+                    .bindTooltip(unit.name, { permanent: false, direction: "top" })
+                    .bindPopup(`<strong>${unit.name}</strong><br>Latitude: ${unit.latitude}<br>Longitude: ${unit.longitude}`);
+
                 const circle = L.circle([unit.latitude, unit.longitude], {
                     color: 'red',
                     radius: 50
                 }).addTo(map);
+                markers.push(marker);
             });
+
+            centerMapByMarkers(map, markers);
 
             // Card de coordenadas atuais
             const coordDiv = L.control({ position: 'bottomleft' });
@@ -105,13 +112,24 @@
                     map.removeLayer(lastClickedMarker);
                 }
 
-                lastClickedMarker = L.marker([lat, lng], { icon: greenIcon }).addTo(map)
+                lastClickedMarker = L.marker([lat, lng], { icon: greenIcon })
+                    .addTo(map)
                     .bindTooltip("Nova coordenada", { direction: "top" });
             });
 
             function closeCard() {
                 const card = document.getElementById('coord-form');
                 card.classList.add('hidden');
+            }
+
+            //Functions
+            function centerMapByMarkers(map, markers) {
+                if (markers.length) {
+                    const group = L.featureGroup(markers);
+                    map.fitBounds(group.getBounds(), { padding: [30, 30] });
+                } else {
+                    map.locate({ setView: true, maxZoom: 18 });
+                }
             }
         </script>
     @endpush
