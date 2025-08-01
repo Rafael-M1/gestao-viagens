@@ -64,8 +64,4 @@ class VehicleController extends Controller
         return $pdf->download('veiculos.pdf');
     }
 
-    public function showMap()
-    {
-        return view('vehicles.showMap');
-    }
 }

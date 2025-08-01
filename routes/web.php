@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleModelController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware(["role:Admin"])->group(function () {
         Route::resource('vehicles', VehicleController::class)->except(['show']);
         Route::get('/vehicles/pdf', [VehicleController::class, 'exportPdf'])->name('vehicles.pdf');
-        Route::get('/vehicles/map', [VehicleController::class, 'showMap'])->name('vehicles.showMap');
         Route::resource('brands', BrandController::class)->except(['show']);
         Route::resource('vehicle-models', VehicleModelController::class)->except(['show']);
+
+        Route::get('/units/map', [UnitController::class, 'index'])->name('units.index');
+        Route::post('/units', [UnitController::class, 'store'])->name('units.store');
     });
     //-- Admin Routes --
 });

@@ -16,13 +16,14 @@
                 <div class="p-6">
                     <h1 class="text-xl font-bold text-gray-800 mb-6">Painel</h1>
                     <nav class="space-y-4">
-                        <a href="/dashboard" class="block text-gray-700 hover:text-blue-600">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="block text-gray-700 hover:text-blue-600">Dashboard</a>
                         <a href="/profile" class="block text-gray-700 hover:text-blue-600">Perfil</a>
                         @auth
                             @if (auth()->user()->hasRole("Admin"))
-                            <a href="/vehicles" class="block text-gray-700 hover:text-blue-600">Veículos</a>
-                            <a href="/brands" class="block text-gray-700 hover:text-blue-600">Marcas</a>
-                            <a href="/vehicle-models" class="block text-gray-700 hover:text-blue-600">Modelos</a>
+                            <a href="{{ route('vehicles.index') }}" class="block text-gray-700 hover:text-blue-600">Veículos</a>
+                            <a href="{{ route('brands.index') }}" class="block text-gray-700 hover:text-blue-600">Marcas</a>
+                            <a href="{{ route('vehicle-models.index') }}" class="block text-gray-700 hover:text-blue-600">Modelos</a>
+                            <a href="{{ route('units.index') }}" class="block text-gray-700 hover:text-blue-600">Unidades</a>
                             @endif
                         @endauth
                         <form method="POST" action="{{ route('logout') }}">
