@@ -112,7 +112,6 @@
             // Card de coordenadas atuais
 
             //Add new coordinate
-            let lastClickedCoordinates = null;
             let lastClickedMarker = null;
 
             map.on('click', function (e) {
