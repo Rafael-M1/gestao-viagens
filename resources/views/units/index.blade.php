@@ -59,6 +59,10 @@
                 const marker = L.marker([unit.latitude, unit.longitude], { icon: redIcon })
                     .addTo(map)
                     .bindTooltip(unit.name, { permanent: false, direction: "top" });
+                const circle = L.circle([unit.latitude, unit.longitude], {
+                    color: 'red',
+                    radius: 50
+                }).addTo(map);
             });
 
             // Card de coordenadas atuais
