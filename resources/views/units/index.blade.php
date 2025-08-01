@@ -49,7 +49,7 @@
             const lat = -15.56762;
             const long = -56.0728;
             const coordinates = [lat, long];
-            const map = L.map('map').setView(coordinates, 18);
+            const map = L.map('map').setView(coordinates, 17);
             const units = @json($units);
             // Constantes
 
