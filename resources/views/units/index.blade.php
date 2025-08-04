@@ -33,94 +33,49 @@
         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
         <script>
             const csrfToken = @json(csrf_token());
-            // Constantes
-            function createIcon(color) {
-                return L.icon({
-                    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
-                    shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    tooltipAnchor: [0, -45],
-                    shadowSize: [41, 41]
-                });
-            }
-
+            const units = @json($units);
             const redIcon = createIcon('red');
             const greenIcon = createIcon('green');
-            const lat = -15.56762;
-            const long = -56.0728;
-            const coordinates = [lat, long];
             const map = L.map('map');
-            const units = @json($units);
             const markers = [];
-            // Constantes
 
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
-                .addTo(map);
-
-            units.forEach(unit => {
-                const marker = L.marker([unit.latitude, unit.longitude], { icon: redIcon })
-                    .addTo(map)
-                    .bindTooltip(unit.name, { permanent: false, direction: "top" })
-                    .bindPopup(`
-                        <div>
-                            <strong>${unit.name}</strong><br>
-                            Latitude: ${unit.latitude}<br>
-                            Longitude: ${unit.longitude}<br>
-                            <form method="POST" action="/units/${unit.id}" onsubmit="return confirm('Deseja excluir esta unidade?');" class="mt-2">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <button type="submit" class="text-red-600 hover:underline flex items-center gap-1">
-                                        🗑️ <span>Excluir</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    `);
-
-                const circle = L.circle([unit.latitude, unit.longitude], {
-                    color: 'red',
-                    radius: 50
-                }).addTo(map);
-                markers.push(marker);
-            });
-
+            initMap();
+            renderMarkers();
+            addCoordinateCard();
             centerMapByMarkers(map, markers);
-
-            // Card de coordenadas atuais
-            const coordDiv = L.control({ position: 'bottomleft' });
-
-            coordDiv.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'mouse-coordinates');
-                this._div.style.background = 'rgba(255,255,255,0.8)';
-                this._div.style.padding = '4px';
-                this._div.style.borderRadius = '4px';
-                this._div.style.fontSize = '14px';
-                this.update();
-                return this._div;
-            };
-
-            coordDiv.update = function (latlng) {
-                this._div.innerHTML = latlng
-                    ? `Lat: ${latlng.lat.toFixed(5)}, Lng: ${latlng.lng.toFixed(5)}`
-                    : 'Passe o mouse sobre o mapa';
-            };
-
-            coordDiv.addTo(map);
-            map.on('mousemove', e => coordDiv.update(e.latlng));
-            // Card de coordenadas atuais
-
-            //Add new coordinate
             let lastClickedMarker = null;
 
-            map.on('click', function (e) {
-                const { lat, lng } = e.latlng;
+            map.on('click', (event) => onMapClick(event));
+
+            function addCoordinateCard() {
+                const coordDiv = L.control({ position: 'bottomleft' });
+
+                coordDiv.onAdd = function () {
+                    this._div = L.DomUtil.create('div', 'mouse-coordinates');
+                    this._div.style.background = 'rgba(255,255,255,0.8)';
+                    this._div.style.padding = '4px';
+                    this._div.style.borderRadius = '4px';
+                    this._div.style.fontSize = '14px';
+                    this.update();
+                    return this._div;
+                };
+
+                coordDiv.update = function (latlng) {
+                    this._div.innerHTML = latlng
+                        ? `Lat: ${latlng.lat.toFixed(5)}, Lng: ${latlng.lng.toFixed(5)}`
+                        : 'Passe o mouse sobre o mapa';
+                };
+
+                coordDiv.addTo(map);
+                map.on('mousemove', (e) => coordDiv.update(e.latlng));
+            }
+
+            function onMapClick(event) {
+                const { lat, lng } = event.latlng;
 
                 document.getElementById('coord-text').textContent = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
                 document.getElementById('latitude').value = lat.toFixed(6);
                 document.getElementById('longitude').value = lng.toFixed(6);
-
                 document.getElementById('coord-form').classList.remove('hidden');
 
                 if (lastClickedMarker) {
@@ -130,14 +85,13 @@
                 lastClickedMarker = L.marker([lat, lng], { icon: greenIcon })
                     .addTo(map)
                     .bindTooltip("Nova coordenada", { direction: "top" });
-            });
+            }
 
             function closeCard() {
                 const card = document.getElementById('coord-form');
                 card.classList.add('hidden');
             }
 
-            //Functions
             function centerMapByMarkers(map, markers) {
                 if (markers.length) {
                     const group = L.featureGroup(markers);
@@ -145,6 +99,51 @@
                 } else {
                     map.locate({ setView: true, maxZoom: 18 });
                 }
+            }
+
+            function getUnitPopupHtml(unit) {
+                return `
+                    <div>
+                        <strong>${unit.name}</strong><br>
+                        Latitude: ${unit.latitude}<br>
+                        Longitude: ${unit.longitude}<br>
+                        <form method="POST" action="/units/${unit.id}" onsubmit="return confirm('Deseja excluir esta unidade?');" class="mt-2">
+                            <input type="hidden" name="_token" value="${csrfToken}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button type="submit" class="text-red-600 hover:underline flex items-center gap-1">
+                                    🗑️ <span>Excluir</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+            }
+
+            function initMap() {
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
+            }
+
+            function renderMarkers() {
+                units.forEach(unit => {
+                    const marker = L.marker([unit.latitude, unit.longitude], { icon: redIcon })
+                        .addTo(map)
+                        .bindTooltip(unit.name, { direction: "top" })
+                        .bindPopup(getUnitPopupHtml(unit));
+                    L.circle([unit.latitude, unit.longitude], { color: 'red', radius: 50 }).addTo(map);
+                    markers.push(marker);
+                });
+            }
+
+            function createIcon(color) {
+                return L.icon({
+                    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
+                    shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    tooltipAnchor: [0, -45],
+                    shadowSize: [41, 41]
+                });
             }
         </script>
     @endpush
